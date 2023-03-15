@@ -83,6 +83,73 @@
             </footer>
         </article>
 
+        @auth()
+            @if (Auth::user()->role==='admin')
+                <a href="{{route('article.delete', $article)}}">Удалить статью</a>
+            @endif
+
+        @endauth
+
+        <div class="comments">
+            @auth
+
+                {{-- Вывод ошибок --}}
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            {{ $error }}
+                        </div>
+                    @endforeach
+                @endif
+
+
+                <form method="POST" action="{{ route('comment.store') }}" class="form-comment">
+                    @csrf
+                    <div class="form-group">
+                        <label for="text">
+                            Ваш комментарий
+                        </label>
+                        <textarea name="text" id="text" cols="30" rows="10"></textarea>
+                    </div>
+
+                    <input type="hidden" name="article_id" value="{{ $article->id }}">
+
+                    <button type="submit">Add comment</button>
+                </form>
+            @endauth
+
+            @foreach ($article->comments() as $comment)
+                <ul class="list">
+                    <li>
+                        <h3 class="author">
+                            {{ $comment->user()->username }}
+                        </h3>
+                        <p class="text">
+                            {{ $comment->text }}
+                        </p>
+                        <time>{{ $comment->created_at->format('M d, Y') }}</time>
+                    </li>
+                </ul>
+            @endforeach
+
+            <style>
+                .list {
+                    list-style: none;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+
+                .list li {
+                    padding: 24px;
+                    background-color: #fff;
+                    display: flex;
+                    flex-direction: column;
+                }
+            </style>
+
+        </div>
+
     </div>
 
     <!-- Footer -->

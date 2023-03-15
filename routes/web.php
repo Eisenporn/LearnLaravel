@@ -6,6 +6,7 @@ use \App\Models\User;
 use \App\Http\Controllers\IndexController;
 use App\Models\Article;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 use App\Http\Middleware\AdminMiddleware;
 // Route::get('/', function () {
 
@@ -50,4 +51,8 @@ Route::controller(ArticleController::class)->prefix('/articles')->as('article.')
     });
 
     Route::get('/{article:id}', 'single')->name('single');
+});
+
+Route::controller(CommentController::class)->prefix('/comments')->as('comment.')->middleware('auth')->group(function(){
+    Route::post('/create', 'store')->name('store');
 });

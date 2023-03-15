@@ -62,41 +62,39 @@
                   <article class="post">
                       <header>
                           <div class="title">
-                              <h2><a href="single.html">{{ $article->title }}</a></h2>
+                              <h2><a href="{{route('article.single', $article)}}">{{ $article->title }}</a></h2>
                               <p>{{ $article->short_text }}</p>
                           </div>
                           <div class="meta">
                               <time class="published" datetime="2015-11-01">
-                                {{ $article->created_at->format('M d, Y') }}
+                                  {{ $article->created_at->format('M d, Y') }}
                               </time>
-                              <a href="#" class="author"><span class="name">{{ $article->author()->username }}</span><img
-                                      src="images/avatar.jpg" alt="" /></a>
+                              <a href="#" class="author"><span
+                                      class="name">{{ $article->author()->username }}</span><img src="images/avatar.jpg"
+                                      alt="" /></a>
                           </div>
                       </header>
-                      <a href="single.html" class="image featured"><img src="{{ $article->image_url }}" alt="" /></a>
-                      <p>{{ substr($article['content'], 0, 70)}}...</p>
+                      <a href="single.html" class="image featured"><img src="{{ $article->image_url }}"
+                              alt="" /></a>
+                      <p>{{ substr($article['content'], 0, 70) }}...</p>
                       <footer>
                           <ul class="actions">
                               <li><a href="single.html" class="button large">Continue Reading</a></li>
                           </ul>
                           <ul class="stats">
-                              <li><a href="#" class="icon solid fa-eye">{{ $article->view_count}}</a></li>
+                              <li><a href="#" class="icon solid fa-eye">{{ $article->view_count }}</a></li>
                               <li><a href="#" class="icon solid fa-comment">128</a></li>
                           </ul>
                       </footer>
                   </article>
               @endforeach
+
+              {{ $articles->links('components.paginate') }}
+
+
           @else
               <h2>На данный момент постов нет.</h2>
           @endif
-
-
-          <!-- Pagination -->
-          <ul class="actions pagination">
-              <li><a href="" class="disabled button large previous">Previous Page</a></li>
-              <li><a href="#" class="button large next">Next Page</a></li>
-          </ul>
-
       </div>
 
       <!-- Sidebar -->

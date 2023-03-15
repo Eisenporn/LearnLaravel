@@ -28,6 +28,11 @@ class Article extends Model
         return $this->hasOne(User::class, 'id', 'author_id')->first();
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'article_id', 'id')->get();
+    }
+
     public function getImageUrlAttribute()
     {
         return url(Storage::url($this->image_path));
